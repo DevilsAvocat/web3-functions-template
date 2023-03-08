@@ -280,6 +280,6 @@ Web3Function.onRun(async (context: Web3FunctionContext) => {
   // Return execution call data
   return {
     canExec: true,
-    callData: tx.data,
+    callData: buybackContract.interface.encodeFunctionData("buyGHST", [tx.data])
   };
 });
