@@ -20,7 +20,7 @@ const AUTOBUY_ABI = [{"anonymous":false,"inputs":[{"indexed":false,"internalType
 /////////////////////////////////////////////////////////////////
 const API_URL = "https://apiv5.paraswap.io";
 
-const BUYBACK_ADDRESS = "0xc9759f3E3ac8AF38BF75e052F8F6c060000281C7";
+const BUYBACK_ADDRESS = "0x2E335254b541D111Efe41ec7dc82c94D2995674A";
 
 const PARTNER = "";
 
