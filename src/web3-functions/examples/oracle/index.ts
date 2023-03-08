@@ -2,7 +2,7 @@ import {
   Web3Function,
   Web3FunctionContext,
 } from "@gelatonetwork/web3-functions-sdk";
-import { Contract } from "ethers";
+import { Contract, providers } from "ethers";
 import ky from "ky"; // we recommend using ky as axios doesn't support fetch by default
 
 const ORACLE_ABI = [
@@ -11,8 +11,9 @@ const ORACLE_ABI = [
 ];
 
 Web3Function.onRun(async (context: Web3FunctionContext) => {
-  const { userArgs, gelatoArgs, provider } = context;
+  const { userArgs, gelatoArgs/*, provider*/ } = context;
 
+  const provider = new  providers.JsonRpcProvider("https://goerli.infura.io/v3/3b3638bd59184c8c85b9f312959ae615")
   // Retrieve Last oracle update time
   const oracleAddress =
     (userArgs.oracle as string) ?? "0x6a3c82330164822A8a39C7C0224D20DB35DD030a";
@@ -20,6 +21,8 @@ Web3Function.onRun(async (context: Web3FunctionContext) => {
   let oracle;
   try {
     oracle = new Contract(oracleAddress, ORACLE_ABI, provider);
+    //console.log(oracle)
+    console.log(await oracle.lastUpdated())
     lastUpdated = parseInt(await oracle.lastUpdated());
     console.log(`Last oracle update: ${lastUpdated}`);
   } catch (err) {
@@ -31,7 +34,7 @@ Web3Function.onRun(async (context: Web3FunctionContext) => {
   const timestamp = gelatoArgs.blockTime;
   console.log(`Next oracle update: ${nextUpdateTime}`);
   if (timestamp < nextUpdateTime) {
-    return { canExec: false, message: `Time not elapsed` };
+    //return { canExec: false, message: `Time not elapsed` };
   }
 
   // Get current price on coingecko
