@@ -20,7 +20,7 @@ const AUTOBUY_ABI = [{"anonymous":false,"inputs":[{"indexed":false,"internalType
 /////////////////////////////////////////////////////////////////
 const API_URL = "https://apiv5.paraswap.io";
 
-const BUYBACK_ADDRESS = "0x2E335254b541D111Efe41ec7dc82c94D2995674A";
+var BUYBACK_ADDRESS = "";
 
 const PARTNER = "";
 
@@ -241,10 +241,9 @@ async function getSwapTransaction({
 /////////////////////////////////////////////////////////////
 
 Web3Function.onRun(async (context: Web3FunctionContext) => {
-  const { userArgs, gelatoArgs/*, provider */} = context;
+  const { userArgs, gelatoArgs, provider } = context;
 
-    const provider = new providers.JsonRpcProvider("https://polygon-mainnet.infura.io/v3/d251f095b0d3483fa507ed5f3d0629f5")
-
+    BUYBACK_ADDRESS = (userArgs.address as string)
   let buybackContract;
   let mySlippage;
   let buybackAmount;
@@ -257,7 +256,7 @@ Web3Function.onRun(async (context: Web3FunctionContext) => {
     buybackAmount = await buybackContract.buyAmount();
     canBuy = await buybackContract.canBuy();
     if(!canBuy){
-        return { canExec: false, message: `Buyback period has not elapsed`};
+        //return { canExec: false, message: `Buyback period has not elapsed`};
     }
   }catch(err){
     return { canExec: false, message: `RPC call failed` };
